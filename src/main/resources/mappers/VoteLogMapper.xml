@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.vote.dao.mapper.VoteLogMapper">
+    <resultMap id="LogResultMap" type="com.example.vote.dao.dto.VoteLogDto">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="project_id" property="projectId"/>
+        <result column="option_id" property="optionId"/>
+        <result column="vote_time" property="voteTime"/>
+    </resultMap>
+    <select id="queryAllLogsByProjectId" resultMap="LogResultMap" parameterType="java.lang.Integer">
+       select * from vote.t_vote_log where project_id = #{projectId};
+    </select>
+    <insert id="insertVoteLog" parameterType="com.example.vote.dao.dto.VoteLogDto"
+            useGeneratedKeys="true"
+            keyColumn="id" keyProperty="id">
+        INSERT INTO vote.t_vote_log (user_name, project_id, option_id, vote_time)
+        VALUES (#{userName,jdbcType=VARCHAR},#{projectId,jdbcType=INTEGER},#{optionId,jdbcType=INTEGER},now())
+    </insert>
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.vote.dao.mapper.VoteProjectMapper">
+    <resultMap id="ProjectResultMap" type="com.example.vote.dao.dto.VoteProjectDto">
+        <id column="id" property="id"/>
+        <result column="title" property="title"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+    </resultMap>
+    <select id="queryAllProjects" resultMap="ProjectResultMap">
+       select * from vote.t_vote_project;
+    </select>
+    <insert id="insertProject" parameterType="com.example.vote.dao.dto.VoteProjectDto"
+            useGeneratedKeys="true"
+            keyColumn="id" keyProperty="id">
+        INSERT INTO vote.t_vote_project (title, start_time, end_time)
+        VALUES (#{title,jdbcType=VARCHAR},#{startTime,jdbcType=TIMESTAMP},#{endTime,jdbcType=TIMESTAMP})
+    </insert>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.vote.dao.mapper.VoteOptionMapper">
+    <resultMap id="OptionResultMap" type="com.example.vote.dao.dto.VoteOptionDto">
+        <id column="id" property="id"/>
+        <result column="project_id" property="projectId"/>
+        <result column="option_name" property="optionName"/>
+    </resultMap>
+    <insert id="insertOptions" parameterType="java.util.List" useGeneratedKeys="true"
+            keyColumn="id" keyProperty="id">
+        insert into t_vote_options(project_id, option_name) values
+        <foreach collection="list" separator="," item="item" index="index">
+            (#{item.projectId,jdbcType=INTEGER},
+            #{item.optionName,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+    <select id="queryOptionsByProjectId" resultMap="OptionResultMap" parameterType="java.lang.Integer">
+        select * from t_vote_options where project_id = #{projectId}
+    </select>
+</mapper>
